@@ -52,7 +52,6 @@
     </style>
 </head>
 <body>
-    <!-- Si tienes tu video curvaCentral.mp4 en la misma carpeta, ponlo aquí -->
     <video id="video-background" autoplay loop muted playsinline>
         <source src="curvaCentral.mp4" type="video/mp4">
     </video>
@@ -68,8 +67,7 @@
     </div>
 
     <script>
-        // ⚠️ PEGA AQUÍ EL ENLACE QUE TE DÉ CLOUDFLARE EN TERMUX (sin la barra final /)
-        const TUNEL_CLOUDFLARE = "https://tu-enlace-aqui.trycloudflare.com"; 
+        const TUNEL_CLOUDFLARE = "https://panel.theadriano.com.curvacentral.site"; 
         
         const endpointStats = `${TUNEL_CLOUDFLARE}/api/subbots_stats`;
 
@@ -84,7 +82,6 @@
                 if (!response.ok) throw new Error("Red muerta");
                 const data = await response.json();
 
-                // Interfaz Online
                 document.getElementById('conexion-luz').className = 'status-indicator online';
                 document.getElementById('texto-estado').innerText = "CONECTADO AL NÚCLEO";
                 document.getElementById('texto-estado').style.color = "#39ff14";
@@ -104,14 +101,12 @@
                 }
 
             } catch (error) {
-                // Interfaz Offline (Si Termux está apagado, Vercel no se cae, solo muestra esto)
                 document.getElementById('conexion-luz').className = 'status-indicator offline';
                 document.getElementById('texto-estado').innerText = "TÚNEL DESCONECTADO (Termux Apagado)";
                 document.getElementById('texto-estado').style.color = "#ff003c";
             }
         }
 
-        // Refrescar el radar cada 3 segundos
         setInterval(obtenerDatos, 3000);
         obtenerDatos();
     </script>
