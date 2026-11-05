@@ -1,4 +1,5 @@
-const API_URL = 'https://panel.theadriano.com.curvacentral.site';
+const API_URL = 'https://panel.theadriano.com';
+
 
 function calcularUptime(msInicio) {
     const diff = Date.now() - msInicio;
