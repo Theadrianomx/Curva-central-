@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintonizando Multiverso | RICK OS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        body {
+            background-color: #0b0c10;
+            color: #39ff14;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        h2 { text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); letter-spacing: 2px; }
+        .panel {
+            background: rgba(0, 229, 255, 0.05);
+            border: 1px solid #00e5ff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .online { background-color: #39ff14; box-shadow: 0 0 8px #39ff14; }
+        .offline { background-color: #ff003c; box-shadow: 0 0 8px #ff003c; }
+        .bot-card {
+            border-bottom: 1px dashed #00e5ff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        #video-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Si tienes tu video curvaCentral.mp4 en la misma carpeta, ponlo aquí -->
+    <video id="video-background" autoplay loop muted playsinline>
+        <source src="curvaCentral.mp4" type="video/mp4">
+    </video>
+
+    <h2><span id="conexion-luz" class="status-indicator offline"></span> RICK OS MONITOR</h2>
+    <p>Estado del Servidor Principal: <span id="texto-estado">Buscando señal...</span></p>
+
+    <div class="panel">
+        <h3>🛰️ SUB-BOTS ACTIVOS: <span id="contador-bots">0</span></h3>
+        <div id="lista-bots">
+            <p>Esperando datos de la API...</p>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ PEGA AQUÍ EL ENLACE QUE TE DÉ CLOUDFLARE EN TERMUX (sin la barra final /)
+        const TUNEL_CLOUDFLARE = "https://tu-enlace-aqui.trycloudflare.com"; 
+        
+        const endpointStats = `${TUNEL_CLOUDFLARE}/api/subbots_stats`;
+
+        async function obtenerDatos() {
+            try {
+                const response = await fetch(endpointStats, { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({}) 
+                });
+                
+                if (!response.ok) throw new Error("Red muerta");
+                const data = await response.json();
+
+                // Interfaz Online
+                document.getElementById('conexion-luz').className = 'status-indicator online';
+                document.getElementById('texto-estado').innerText = "CONECTADO AL NÚCLEO";
+                document.getElementById('texto-estado').style.color = "#39ff14";
+                
+                document.getElementById('contador-bots').innerText = data.totalActivos;
+
+                const lista = document.getElementById('lista-bots');
+                if (data.bots && data.bots.length > 0) {
+                    lista.innerHTML = data.bots.map(bot => 
+                        `<div class="bot-card">
+                            <span>ID: ${bot.id || 'Desconocido'}</span>
+                            <span style="color: #00e5ff;">OPERATIVO</span>
+                        </div>`
+                    ).join('');
+                } else {
+                    lista.innerHTML = "<p>No hay Sub-Bots anclados al multiverso.</p>";
+                }
+
+            } catch (error) {
+                // Interfaz Offline (Si Termux está apagado, Vercel no se cae, solo muestra esto)
+                document.getElementById('conexion-luz').className = 'status-indicator offline';
+                document.getElementById('texto-estado').innerText = "TÚNEL DESCONECTADO (Termux Apagado)";
+                document.getElementById('texto-estado').style.color = "#ff003c";
+            }
+        }
+
+        // Refrescar el radar cada 3 segundos
+        setInterval(obtenerDatos, 3000);
+        obtenerDatos();
+    </script>
+</body>
+</html>
