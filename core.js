@@ -1,5 +1,5 @@
 // Tu túnel activo
-const API_URL = 'https://exit-applied-introduce-initiated.trycloudflare.com';
+const API_URL = 'https://panel.theadriano.com';
 
 async function consultarRadar() {
   const radarDiv = document.getElementById('radar-datos');
