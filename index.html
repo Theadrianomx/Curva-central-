@@ -43,6 +43,12 @@
         <h3 class="neon-text">INYECTOR DE CÓDIGO (NUEVO BOT)</h3>
         <input type="text" id="input-telefono" class="input-futurista" placeholder="Ej: 5219991234567">
         <button id="btn-generar" class="boton-neon">GENERAR PAIRING CODE</button>
+        
+        <!-- Contenedor dinámico del código generado -->
+        <div id="codigo_generado" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.6); border: 1px dashed var(--rick-neon); padding: 15px; text-align: center; border-radius: 8px;">
+          <p style="font-size: 12px; color: #aaa; margin: 0 0 8px 0;">CÓDIGO DE VINCULACIÓN:</p>
+          <span id="pairing_text" style="color: var(--rick-neon); font-size: 1.5rem; font-family: monospace; font-weight: bold; letter-spacing: 3px;">---</span>
+        </div>
       </div>
 
       <div class="tarjeta-cristal">
