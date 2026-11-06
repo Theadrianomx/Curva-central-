@@ -1,3 +1,4 @@
+// Tu túnel activo
 const API_URL = 'https://panel.curvainfinitacentral.com';
 
 // --- 1. LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
@@ -115,7 +116,7 @@ async function cargarSubBotsDetallados() {
   }
 }
 
-// --- 4. INYECTOR DE CÓDIGO (PAIRING CODE) ---
+// --- 4. INYECTOR DE CÓDIGO (PAIRING CODE CON RETROALIMENTACIÓN VISUAL) ---
 const btnGenerar = document.getElementById('btn-generar');
 if (btnGenerar) {
   btnGenerar.addEventListener('click', async () => {
@@ -127,25 +128,61 @@ if (btnGenerar) {
       return;
     }
 
+    const box = document.getElementById('codigo_generado');
+    const texto = document.getElementById('pairing_text');
+    
+    if (box) box.style.display = "block";
+    if (texto) texto.innerText = "SINTONIZANDO WHATSAPP...";
+
     btnGenerar.innerText = 'GENERANDO...';
     btnGenerar.disabled = true;
 
     try {
-      const res = await fetch(`${API_URL}/api/generar_codigo`, {
+      // 1. Enviar solicitud para generar código en el núcleo
+      const resInicio = await fetch(`${API_URL}/api/generar_codigo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ numero: telefono })
       });
-      const resultado = await res.json();
+      const resultado = await resInicio.json();
 
-      if (resultado.success) {
-        alert('Solicitud de pairing code enviada al núcleo con éxito.');
-      } else {
-        alert('Error al generar el código en el núcleo.');
+      if (!resultado.success) {
+        throw new Error("El núcleo rechazó la petición.");
       }
+
+      // 2. Ciclo de sondeo automático para leer el código temporal generado
+      let intentos = 0;
+      const intervalo = setInterval(async () => {
+        intentos++;
+        try {
+          const resCod = await fetch(`${API_URL}/api/leer_codigo`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: telefono })
+          });
+          const dataCod = await resCod.json();
+          
+          if (dataCod.success && dataCod.codigo) {
+            if (texto) texto.innerText = dataCod.codigo;
+            clearInterval(intervalo);
+            btnGenerar.innerText = 'GENERAR PAIRING CODE';
+            btnGenerar.disabled = false;
+          }
+        } catch(e) {}
+
+        // Timeout a los 30 segundos
+        if (intentos > 15) {
+          clearInterval(intervalo);
+          if (texto && texto.innerText === "SINTONIZANDO WHATSAPP...") {
+            texto.innerText = "TIMEOUT - REINTENTAR";
+          }
+          btnGenerar.innerText = 'GENERAR PAIRING CODE';
+          btnGenerar.disabled = false;
+        }
+      }, 2000);
+
     } catch (err) {
-      alert('No se pudo conectar con el servidor para generar el código.');
-    } finally {
+      if (texto) texto.innerText = "ERROR DE CONEXIÓN";
       btnGenerar.innerText = 'GENERAR PAIRING CODE';
       btnGenerar.disabled = false;
     }
