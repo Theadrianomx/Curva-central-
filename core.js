@@ -1,4 +1,4 @@
-const API_URL = 'https://panel.theadriano.com';
+const API_URL = 'https://exit-applied-introduce-initiated.trycloudflare.com';
 
 
 function calcularUptime(msInicio) {
