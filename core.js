@@ -1,20 +1,19 @@
-// Tu túnel activo
 const API_URL = 'https://panel.curvainfinitacentral.com';
 
-// --- 1. LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
+// --- LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
 const menuItems = document.querySelectorAll('.sidebar-menu-item');
 const vistas = document.querySelectorAll('.vista-seccion');
 
 menuItems.forEach(item => {
   item.addEventListener('click', () => {
-    // Remover clase activo de todas las opciones del menú
+    // Cambiar clase activa en el menú
     menuItems.forEach(i => i.classList.remove('activo'));
     item.classList.add('activo');
 
-    // Obtener la vista de destino
+    // Obtener la vista destino
     const target = item.getAttribute('data-target');
     
-    // Ocultar todas las vistas y mostrar solo la seleccionada
+    // Ocultar todas las vistas y mostrar únicamente la seleccionada
     vistas.forEach(vista => {
       vista.style.display = 'none';
     });
@@ -26,7 +25,7 @@ menuItems.forEach(item => {
   });
 });
 
-// --- 2. RADAR Y ESTADO DEL NÚCLEO ---
+// --- RADAR Y ESTADO DEL NÚCLEO ---
 async function consultarRadar() {
   const radarDiv = document.getElementById('radar-datos');
   const countSpan = document.getElementById('dimensiones-count');
@@ -56,7 +55,7 @@ async function consultarRadar() {
   }
 }
 
-// --- 3. INYECTOR DE CÓDIGO (PAIRING CODE) ---
+// --- INYECTOR DE CÓDIGO (PAIRING CODE) ---
 const btnGenerar = document.getElementById('btn-generar');
 if (btnGenerar) {
   btnGenerar.addEventListener('click', async () => {
