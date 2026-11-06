@@ -1,5 +1,6 @@
 // Tu túnel activo
-const API_URL = 'https://panel.theadriano.com';
+//const API_URL = 'https://panel.theadriano.com';
+const API_URL = 'https://panel.adrnocl.com';
 
 async function consultarRadar() {
   const radarDiv = document.getElementById('radar-datos');
