@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RICK OS | NÚCLEO</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Fuente moderna de Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Tu Video de Fondo (Carga desde GitHub/Vercel) -->
+  <video autoplay loop muted playsinline class="video-bg">
+    <source src="Rick-fondo.mp4" type="video/mp4">
+  </video>
+
+  <!-- Menú Lateral -->
+  <nav class="sidebar">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 class="neon-text" style="font-size: 24px; margin: 0;">RICK OS</h2>
+      <p style="color: #666; font-size: 12px; margin-top: 5px;">VERSIÓN 2.0</p>
+    </div>
+    
+    <div class="sidebar-menu-item activo">🏠 Panel Principal</div>
+    <div class="sidebar-menu-item">🤖 Sub-Bots</div>
+    <div class="sidebar-menu-item">⚡ Flujos</div>
+    <div class="sidebar-menu-item">⚙️ Configuración</div>
+  </nav>
+
+  <!-- Contenido Central -->
+  <main class="main-content">
+    
+    <!-- Tarjeta de Estado -->
+    <div class="tarjeta-cristal">
+      <h3 class="neon-text">ESTADO DEL SISTEMA</h3>
+      <div style="display: flex; gap: 40px; margin-top: 15px;">
+        <p>🟢 <span id="estado-texto">Conectado al Multiverso</span></p>
+        <p>⚡ Dimensiones Activas: <span id="dimensiones-count" class="neon-text">0</span></p>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Inyección -->
+    <div class="tarjeta-cristal" style="max-width: 500px;">
+      <h3 class="neon-text">INYECTOR DE CÓDIGO (NUEVO BOT)</h3>
+      <input type="text" class="input-futurista" placeholder="Ej: 5219991234567">
+      <button class="boton-neon">GENERAR PAIRING CODE</button>
+    </div>
+
+    <!-- Tarjeta del Radar -->
+    <div class="tarjeta-cristal">
+      <h3 class="neon-text">RADAR DE SUB-BOTS</h3>
+      <div id="radar-datos">
+        <p style="color: #888;">Consultando capacidad del servidor...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="core.js"></script>
+</body>
+</html>

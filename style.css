@@ -1,0 +1,128 @@
+:root {
+  --rick-neon: #00ffcc; /* Verde cian tóxico */
+  --bg-dark: #050508; /* Espacio profundo */
+  --glass-bg: rgba(10, 15, 20, 0.65); /* Cristal muy oscuro y elegante */
+  --glass-border: rgba(0, 255, 204, 0.15); /* Borde sutil neón */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: white;
+  background-color: var(--bg-dark);
+  height: 100vh;
+  overflow: hidden; /* Evita scroll innecesario en toda la pantalla */
+}
+
+/* El Video de Fondo */
+.video-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.35; /* Oscurece el video para que el panel brille */
+}
+
+/* El Menú Lateral estilo Asta Bot */
+.sidebar {
+  width: 260px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid var(--glass-border);
+  padding: 30px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-menu-item {
+  padding: 12px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #a0a0b0;
+  font-weight: 500;
+}
+
+.sidebar-menu-item:hover, .sidebar-menu-item.activo {
+  background: rgba(0, 255, 204, 0.1);
+  color: var(--rick-neon);
+}
+
+/* Contenido Principal */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Tarjetas de Cristal estilo Akame */
+.tarjeta-cristal {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.tarjeta-cristal:hover {
+  border-color: rgba(0, 255, 204, 0.5);
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Textos y Botones Neón */
+.neon-text {
+  color: var(--rick-neon);
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+  margin-top: 0;
+  letter-spacing: 1px;
+}
+
+.boton-neon {
+  background: transparent;
+  color: var(--rick-neon);
+  border: 1px solid var(--rick-neon);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.boton-neon:hover {
+  background: var(--rick-neon);
+  color: var(--bg-dark);
+  box-shadow: 0 0 15px var(--rick-neon);
+}
+
+/* Campos de entrada (Inputs) */
+.input-futurista {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  font-family: monospace;
+}
+.input-futurista:focus {
+  outline: none;
+  border-color: var(--rick-neon);
+}
