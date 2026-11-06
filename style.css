@@ -26,6 +26,7 @@ body {
   color: #fff;
   font-family: var(--font-text);
   height: 100vh;
+  height: 100dvh; /* CORRECCIÓN: Fuerza el alto dinámico en celulares para que el scroll fluya */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -186,4 +187,4 @@ body {
   .main-content { padding: 40px; padding-bottom: 40px; }
   .cyber-header { position: absolute; top: 0; right: 0; width: calc(100% - 250px); z-index: 50; }
   .main-content { margin-top: 70px; } /* Evitar superposición del header */
-}
+    }
