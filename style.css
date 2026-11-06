@@ -1,157 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;600&display=swap');
+
 :root {
-  --rick-neon: #00ffcc; /* Verde cian tóxico */
-  --bg-dark: #050508; /* Espacio profundo */
-  --glass-bg: rgba(10, 15, 20, 0.65); /* Cristal muy oscuro y elegante */
-  --glass-border: rgba(0, 255, 204, 0.15); /* Borde sutil neón */
+  /* Paleta Cyberpunk Multiverse */
+  --space-black: #08090D;
+  --deep-black: #101116;
+  --neon-cyan: #00F5FF;
+  --elec-turq: #00FFD1;
+  --rad-green: #39FF14;
+  --dim-purple: #A100FF;
+  --inter-red: #FF1744;
+  --energy-yellow: #FFE600;
+  
+  --glass-bg: rgba(16, 17, 22, 0.65);
+  --glass-border: rgba(0, 245, 255, 0.25);
+  
+  --font-cyber: 'Orbitron', sans-serif;
+  --font-text: 'Inter', sans-serif;
 }
 
+/* --- RESET & BASE --- */
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  display: flex;
-  font-family: 'Inter', system-ui, sans-serif;
-  color: white;
-  background-color: var(--bg-dark);
+  background-color: var(--space-black);
+  color: #fff;
+  font-family: var(--font-text);
   height: 100vh;
-  overflow: hidden; /* Evita scroll innecesario en toda la pantalla */
-}
-
-/* El Video de Fondo */
-.video-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-  opacity: 0.35; /* Oscurece el video para que el panel brille */
-}
-
-/* El Menú Lateral estilo Asta Bot */
-.sidebar {
-  width: 260px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-right: 1px solid var(--glass-border);
-  padding: 30px 20px;
-  box-sizing: border-box;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
-.sidebar-menu-item {
-  padding: 12px 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-  color: #a0a0b0;
-  font-weight: 500;
+/* --- FONDO MULTIVERSAL (Overlay Cyberpunk) --- */
+.video-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  object-fit: cover; z-index: -3;
+}
+.cyber-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: radial-gradient(circle at center, rgba(8, 9, 13, 0.6) 0%, rgba(8, 9, 13, 0.95) 100%);
+  z-index: -2;
+}
+/* Efecto sutil de monitor CRT (Scanlines) */
+.scanlines {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+  background-size: 100% 4px; z-index: -1; pointer-events: none;
 }
 
-.sidebar-menu-item:hover, .sidebar-menu-item.activo {
-  background: rgba(0, 255, 204, 0.1);
-  color: var(--rick-neon);
+/* --- LAYOUT MOBILE FIRST --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
-
-/* Contenido Principal */
 .main-content {
-  flex: 1;
-  padding: 40px;
-  overflow-y: auto;
-  box-sizing: border-box;
+  flex: 1; padding: 20px;
+  overflow-y: auto; overflow-x: hidden;
+  padding-bottom: 90px; /* Espacio para nav en móvil */
 }
 
-/* Tarjetas de Cristal estilo Akame */
-.tarjeta-cristal {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* --- NAVEGACIÓN (Bottom Bar en Móvil, Sidebar en PC) --- */
+.cyber-nav {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  background: rgba(8, 9, 13, 0.9);
+  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid var(--glass-border);
+  display: flex; justify-content: space-around; align-items: center;
+  padding: 10px 5px; z-index: 100;
+}
+.nav-item {
+  color: #666; font-family: var(--font-cyber); font-size: 11px;
+  text-align: center; cursor: pointer; text-transform: uppercase;
+  padding: 10px; flex: 1; transition: all 0.3s;
+}
+.nav-item.activo {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+  border-bottom: 2px solid var(--neon-cyan);
+}
+
+/* --- HEADER FUTURISTA --- */
+.cyber-header {
+  padding: 15px 20px; border-bottom: 1px solid var(--glass-border);
+  background: rgba(16, 17, 22, 0.8); backdrop-filter: blur(10px);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.brand-title {
+  font-family: var(--font-cyber); margin: 0; font-size: 18px;
+  color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0,245,255,0.6);
+  letter-spacing: 2px;
+}
+.brand-subtitle { font-size: 9px; color: #888; letter-spacing: 1px; margin: 0; }
+.system-status {
+  font-family: var(--font-cyber); font-size: 10px;
+  display: flex; align-items: center; gap: 8px;
+  color: var(--inter-red); border: 1px solid var(--inter-red);
+  padding: 4px 10px; border-radius: 4px;
+}
+.system-status.online {
+  color: var(--rad-green); border-color: var(--rad-green);
+  text-shadow: 0 0 5px var(--rad-green); box-shadow: 0 0 8px rgba(57,255,20,0.2) inset;
+}
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--inter-red);
+  box-shadow: 0 0 8px var(--inter-red); animation: pulse 1.5s infinite;
+}
+.system-status.online .status-dot { background: var(--rad-green); box-shadow: 0 0 8px var(--rad-green); }
+
+/* --- COMPONENTES & TARJETAS HOLOGRÁFICAS --- */
+.cyber-card {
+  background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  padding: 30px;
-  margin-bottom: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* Esquinas biseladas estilo Cyberpunk */
+  clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+  padding: 25px; margin-bottom: 25px; position: relative;
   transition: all 0.3s ease;
+  animation: slideUp 0.5s ease-out;
+}
+.cyber-card::before { /* Borde luminoso superior izquierdo */
+  content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 3px; background: var(--neon-cyan);
+}
+.cyber-card:hover {
+  transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1);
+  border-color: rgba(0, 245, 255, 0.5);
+}
+.card-title {
+  font-family: var(--font-cyber); font-size: 16px; color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 245, 255, 0.5); margin-top: 0; margin-bottom: 15px;
+  display: flex; align-items: center; gap: 10px;
 }
 
-.tarjeta-cristal:hover {
-  border-color: rgba(0, 255, 204, 0.5);
-  box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
-  transform: translateY(-2px);
+/* --- ENTRADAS Y BOTONES --- */
+.cyber-input {
+  width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #333;
+  color: var(--neon-cyan); padding: 12px 15px; font-family: var(--font-cyber);
+  font-size: 14px; outline: none; transition: 0.3s; margin-bottom: 15px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
 }
+.cyber-input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,245,255,0.2) inset; }
 
-/* Textos y Botones Neón */
-.neon-text {
-  color: var(--rick-neon);
-  text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
-  margin-top: 0;
-  letter-spacing: 1px;
+.cyber-btn {
+  width: 100%; background: rgba(0, 245, 255, 0.1); color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan); padding: 12px 20px; font-family: var(--font-cyber);
+  font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
 }
+.cyber-btn:hover { background: var(--neon-cyan); color: var(--space-black); box-shadow: 0 0 15px var(--neon-cyan); }
+.cyber-btn:disabled { border-color: #555; color: #555; background: transparent; cursor: not-allowed; box-shadow: none; }
 
-.boton-neon {
-  background: transparent;
-  color: var(--rick-neon);
-  border: 1px solid var(--rick-neon);
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: 0.3s;
-  width: 100%;
-  margin-top: 15px;
-}
+/* Botones del Multiverso */
+.btn-yellow { border-color: var(--energy-yellow); color: var(--energy-yellow); }
+.btn-yellow:hover { background: var(--energy-yellow); color: var(--space-black); box-shadow: 0 0 15px var(--energy-yellow); }
+.btn-purple { border-color: var(--dim-purple); color: var(--dim-purple); }
+.btn-purple:hover { background: var(--dim-purple); color: #fff; box-shadow: 0 0 15px var(--dim-purple); }
 
-.boton-neon:hover {
-  background: var(--rick-neon);
-  color: var(--bg-dark);
-  box-shadow: 0 0 15px var(--rick-neon);
+/* --- LISTA DE COMANDOS INTERACTIVA --- */
+.cmd-search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+.cmd-category { margin-bottom: 20px; }
+.cmd-category-title { color: var(--elec-turq); font-family: var(--font-cyber); font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid rgba(0,255,209,0.3); padding-bottom: 5px; }
+.cmd-item {
+  background: rgba(0,0,0,0.3); border-left: 2px solid var(--elec-turq); padding: 12px; margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: center; border-radius: 0 8px 8px 0;
 }
+.cmd-code { color: var(--neon-cyan); font-family: monospace; font-size: 14px; font-weight: bold; }
+.cmd-desc { color: #aaa; font-size: 12px; }
+.cmd-copy { background: transparent; border: 1px solid #555; color: #aaa; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; transition: 0.3s; }
+.cmd-copy:hover { border-color: var(--elec-turq); color: var(--elec-turq); }
 
-/* Campos de entrada (Inputs) */
-.input-futurista {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--glass-border);
-  color: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  margin-top: 10px;
-  font-family: monospace;
-}
-.input-futurista:focus {
-  outline: none;
-  border-color: var(--rick-neon);
-}
+/* --- ANIMACIONES --- */
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Adaptación para pantallas de celular */
-@media (max-width: 768px) {
-  body {
-    flex-direction: column;
-    height: auto;
-    overflow-y: auto;
+/* --- DESKTOP MEDIA QUERY --- */
+@media (min-width: 768px) {
+  .app-container { flex-direction: row; }
+  .cyber-nav {
+    position: relative; width: 250px; height: 100vh; flex-direction: column;
+    justify-content: flex-start; gap: 15px; border-top: none; border-right: 1px solid var(--glass-border);
+    padding: 30px 15px;
   }
-  .sidebar {
-    width: 100%;
-    padding: 15px;
-    border-right: none;
-    border-bottom: 1px solid var(--glass-border);
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  .sidebar div:first-child {
-    width: 100%;
-  }
-  .main-content {
-    width: 100%;
-    padding: 15px;
-  }
-  .tarjeta-cristal {
-    padding: 20px;
-  }
+  .nav-item { width: 100%; text-align: left; padding: 15px; font-size: 14px; border-bottom: none; border-left: 2px solid transparent; }
+  .nav-item.activo { border-bottom: none; border-left: 2px solid var(--neon-cyan); background: rgba(0, 245, 255, 0.05); }
+  .main-content { padding: 40px; padding-bottom: 40px; }
+  .cyber-header { position: absolute; top: 0; right: 0; width: calc(100% - 250px); z-index: 50; }
+  .main-content { margin-top: 70px; } /* Evitar superposición del header */
 }
