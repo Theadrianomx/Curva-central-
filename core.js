@@ -1,19 +1,16 @@
+// Tu túnel activo
 const API_URL = 'https://panel.curvainfinitacentral.com';
 
-// --- LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
+// --- 1. LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
 const menuItems = document.querySelectorAll('.sidebar-menu-item');
 const vistas = document.querySelectorAll('.vista-seccion');
 
 menuItems.forEach(item => {
   item.addEventListener('click', () => {
-    // Cambiar clase activa en el menú
     menuItems.forEach(i => i.classList.remove('activo'));
     item.classList.add('activo');
 
-    // Obtener la vista destino
     const target = item.getAttribute('data-target');
-    
-    // Ocultar todas las vistas y mostrar únicamente la seleccionada
     vistas.forEach(vista => {
       vista.style.display = 'none';
     });
@@ -22,10 +19,15 @@ menuItems.forEach(item => {
     if (vistaActiva) {
       vistaActiva.style.display = 'block';
     }
+
+    // Si abren la vista de sub-bots, cargamos la telemetría detallada inmediatamente
+    if (target === 'subbots') {
+      cargarSubBotsDetallados();
+    }
   });
 });
 
-// --- RADAR Y ESTADO DEL NÚCLEO ---
+// --- 2. RADAR Y ESTADO DEL NÚCLEO ---
 async function consultarRadar() {
   const radarDiv = document.getElementById('radar-datos');
   const countSpan = document.getElementById('dimensiones-count');
@@ -55,7 +57,47 @@ async function consultarRadar() {
   }
 }
 
-// --- INYECTOR DE CÓDIGO (PAIRING CODE) ---
+// --- 3. TELEMETRÍA DETALLADA DE SUB-BOTS (USUARIOS, RAM, COMANDOS Y ERRORES) ---
+async function cargarSubBotsDetallados() {
+  const contenedor = document.getElementById('contenedor-subbots-detallado');
+  if (!contenedor) return;
+
+  try {
+    const respuesta = await fetch(`${API_URL}/api/subbots_stats`);
+    const resultado = await respuesta.json();
+
+    const subbots = resultado.subbots || resultado.nodos || [];
+
+    if (subbots.length === 0) {
+      contenedor.innerHTML = '<p style="color: #888;">No hay Sub-Bots activos registrados en este momento.</p>';
+      return;
+    }
+
+    let html = '';
+    subbots.forEach(bot => {
+      html += `
+        <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 255, 204, 0.2); border-radius: 12px; padding: 20px; box-sizing: border-box;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="color: var(--rick-neon); font-weight: bold; font-size: 16px;">🤖 Usuario / Nodo: ${bot.usuario || bot.phone || 'Desconocido'}</span>
+            <span style="background: rgba(0, 255, 204, 0.1); color: var(--rick-neon); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-family: monospace;">RAM: ${bot.ram || bot.ramUsage || 'N/A'}</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 14px; color: #ccc;">
+            <div>📊 Comandos ejecutados: <strong style="color: #fff;">${bot.comandosExitosos || bot.totalComandos || 0}</strong></div>
+            <div>⚠️ Errores totales: <strong style="color: #ff4444; ${bot.erroresTotal > 0 ? 'text-shadow: 0 0 8px rgba(255,68,68,0.5);' : ''}">${bot.erroresTotal || bot.errors || 0}</strong></div>
+            <div style="grid-column: 1 / -1;">❌ Último comando fallido: <code style="color: #ff8888; background: rgba(255,0,0,0.1); padding: 2px 6px; border-radius: 4px;">${bot.ultimoComandoFallido || 'Ninguno'}</code></div>
+          </div>
+        </div>
+      `;
+    });
+
+    contenedor.innerHTML = html;
+
+  } catch (error) {
+    contenedor.innerHTML = '<p style="color: #ff4444;">Error al sincronizar la telemetría con el servidor de Termux.</p>';
+  }
+}
+
+// --- 4. INYECTOR DE CÓDIGO (PAIRING CODE) ---
 const btnGenerar = document.getElementById('btn-generar');
 if (btnGenerar) {
   btnGenerar.addEventListener('click', async () => {
