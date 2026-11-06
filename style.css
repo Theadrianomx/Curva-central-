@@ -126,3 +126,32 @@ body {
   outline: none;
   border-color: var(--rick-neon);
 }
+
+/* Adaptación para pantallas de celular */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    height: auto;
+    overflow-y: auto;
+  }
+  .sidebar {
+    width: 100%;
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .sidebar div:first-child {
+    width: 100%;
+  }
+  .main-content {
+    width: 100%;
+    padding: 15px;
+  }
+  .tarjeta-cristal {
+    padding: 20px;
+  }
+}
