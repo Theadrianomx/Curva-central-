@@ -20,7 +20,6 @@
     
     <!-- Navegación Mobile/Sidebar -->
     <nav class="cyber-nav">
-      <!-- Visible solo en PC como logo -->
       <div style="text-align: center; margin-bottom: 30px; display: none;" class="desktop-brand">
         <h2 class="brand-title">RICK OS</h2>
         <p class="brand-subtitle">CYBERPUNK EDITION</p>
@@ -36,7 +35,6 @@
     <!-- Área Principal -->
     <div style="flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 0;">
       
-      <!-- Header Superior con Indicador de Sistema -->
       <header class="cyber-header">
         <div>
           <h1 class="brand-title">RICK OS V2.0</h1>
@@ -82,7 +80,7 @@
           </div>
         </div>
 
-        <!-- VISTA 3: FLUJOS (Directorio y Redes) -->
+        <!-- VISTA 3: FLUJOS -->
         <div id="view-flujos" class="vista-seccion" style="display: none;">
           
           <div class="cyber-card">
@@ -122,17 +120,17 @@
           </div>
         </div>
 
-        <!-- VISTA 4: LOGIN / ACCESO AL PANEL PRIVADO -->
+        <!-- VISTA 4: LOGIN / ACCESO SEGURO -->
         <div id="view-login" class="vista-seccion" style="display: none;">
           <div class="cyber-card" style="max-width: 500px; margin: 0 auto; border-color: rgba(161, 0, 255, 0.5);">
             <h3 class="card-title" style="color: var(--dim-purple); text-shadow: 0 0 10px rgba(161, 0, 255, 0.5);">
               🔐 AUTENTICACIÓN DIMENSIONAL
             </h3>
             <p style="color: #888; font-size: 13px; margin-bottom: 20px;">
-              Si ya tienes un Sub-Bot activo, ingresa tu número para acceder a tu panel de control privado (Consola, Switches y Ajustes).
+              Ingresa tu número de WhatsApp vinculado. Por motivos de seguridad, <strong>la llave de acceso (Token) será enviada por mensaje privado a tu chat de WhatsApp</strong>.
             </p>
             <input type="text" id="input-login" class="cyber-input" style="border-color: rgba(161, 0, 255, 0.3); color: var(--dim-purple);" placeholder="INGRESA TU NÚMERO (Ej: 5219991234567)">
-            <button id="btn-login" class="cyber-btn btn-purple">ACCEDER AL PANEL PRIVADO</button>
+            <button id="btn-login" class="cyber-btn btn-purple">SOLICITAR LLAVE DE ACCESO</button>
           </div>
         </div>
 
@@ -148,7 +146,6 @@
     </div>
   </div>
 
-  <!-- Botón Flotante de Soporte (WhatsApp) -->
   <a href="https://wa.me/19724938564?text=Hola,%20necesito%20soporte%20con%20RICK%20OS" target="_blank" class="floating-support">
     💬 SOPORTE
   </a>
