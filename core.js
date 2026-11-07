@@ -355,7 +355,7 @@ window.menuReacciones = function(idMsg) {
   const emojis = ['🚀', '🔥', '💀', '❤️', '😂', '⚡'];
   const seleccion = prompt(`Elige una reacción:\n${emojis.join('  ')}\n\nEscribe el emoji:`);
   if (seleccion && emojis.includes(seleccion.trim())) {
-    window.reaccionar(idMsg, seleccion.trimð());
+    window.reaccionar(idMsg, seleccion.trim());
   }
 };
 
@@ -406,7 +406,53 @@ if (btnEnviarChat && inputChat) {
   setInterval(cargarChat, 3000);
 }
 
+// --- 8. CONFIGURACIÓN: TEMA DIMENSIONAL Y CLAVE MAESTRA ---
+const themeButtons = document.querySelectorAll('.theme-btn');
+const rootElement = document.documentElement;
+
+const savedTheme = localStorage.getItem('rick_os_theme');
+if (savedTheme) {
+  applyTheme(savedTheme);
+}
+
+themeButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.getAttribute('data-theme');
+    applyTheme(theme);
+    localStorage.setItem('rick_os_theme', theme);
+  });
+});
+
+function applyTheme(theme) {
+  if (theme === 'purple') {
+    rootElement.style.setProperty('--neon-cyan', '#A100FF');
+    rootElement.style.setProperty('--elec-turq', '#D78EFF');
+  } else if (theme === 'yellow') {
+    rootElement.style.setProperty('--neon-cyan', '#FFE600');
+    rootElement.style.setProperty('--elec-turq', '#39FF14');
+  } else {
+    rootElement.style.setProperty('--neon-cyan', '#00F5FF');
+    rootElement.style.setProperty('--elec-turq', '#00FFD1');
+  }
+}
+
+const btnSaveKey = document.getElementById('btn-save-key');
+if (btnSaveKey) {
+  btnSaveKey.addEventListener('click', () => {
+    const inputKey = document.getElementById('input-master-key');
+    const newKey = inputKey ? inputKey.value.trim() : '';
+
+    if (!newKey) {
+      alert('⚠️ DATO INVÁLIDO: La clave no puede estar vacía.');
+      return;
+    }
+
+    localStorage.setItem('rick_master_password', newKey);
+    alert('🔐 Token maestro actualizado localmente para el protocolo Dios.');
+    inputKey.value = '';
+  });
+}
+
 // Inicializar y consultar el estado de nodos y usuarios
 consultarRadarYUsuarios();
 setInterval(consultarRadarYUsuarios, 5000);
-                              
