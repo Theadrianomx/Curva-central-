@@ -32,7 +32,6 @@ async function consultarRadar() {
     const datos = await respuesta.json();
     
     if (datos.success) {
-      // Actualiza Header a ONLINE
       statusIndicator.classList.add('online');
       statusText.innerText = "SYSTEM ONLINE";
       
@@ -48,7 +47,6 @@ async function consultarRadar() {
       }
     }
   } catch (error) {
-    // Actualiza Header a OFFLINE
     statusIndicator.classList.remove('online');
     statusText.innerText = "SYSTEM OFFLINE";
     
@@ -199,6 +197,32 @@ copyBtns.forEach(btn => {
     }, 1500);
   });
 });
+
+// --- 6. AUTENTICACIÓN / ACCESO AL PANEL PRIVADO ---
+const btnLogin = document.getElementById('btn-login');
+if (btnLogin) {
+  btnLogin.addEventListener('click', () => {
+    const inputLogin = document.getElementById('input-login');
+    const numero = inputLogin ? inputLogin.value.trim().replace(/\D/g, '') : '';
+
+    if (!numero) {
+      alert('DATO INVÁLIDO: Debes ingresar tu número de WhatsApp registrado.');
+      return;
+    }
+
+    btnLogin.innerText = 'ENLAZANDO...';
+    btnLogin.disabled = true;
+
+    setTimeout(() => {
+      const urlPanel = `https://sistema-multiversal-rickc-137.site/?id=${numero}`;
+      window.open(urlPanel, '_blank');
+      
+      btnLogin.innerText = 'ACCEDER AL PANEL PRIVADO';
+      btnLogin.disabled = false;
+      inputLogin.value = '';
+    }, 800);
+  });
+}
 
 // Inicializar
 consultarRadar();
