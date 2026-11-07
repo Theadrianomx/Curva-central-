@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;600&display=swap');
 
 :root {
-  /* Paleta Cyberpunk Multiverse */
   --space-black: #08090D;
   --deep-black: #101116;
   --neon-cyan: #00F5FF;
@@ -18,7 +17,6 @@
   --font-text: 'Inter', sans-serif;
 }
 
-/* --- RESET & BASE --- */
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -26,13 +24,12 @@ body {
   color: #fff;
   font-family: var(--font-text);
   height: 100vh;
-  height: 100dvh; /* CORRECCIÓN: Fuerza el alto dinámico en celulares para que el scroll fluya */
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-/* --- FONDO MULTIVERSAL (Overlay Cyberpunk) --- */
 .video-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
@@ -43,14 +40,12 @@ body {
   background: radial-gradient(circle at center, rgba(8, 9, 13, 0.6) 0%, rgba(8, 9, 13, 0.95) 100%);
   z-index: -2;
 }
-/* Efecto sutil de monitor CRT (Scanlines) */
 .scanlines {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
   background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
   background-size: 100% 4px; z-index: -1; pointer-events: none;
 }
 
-/* --- LAYOUT MOBILE FIRST --- */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -59,10 +54,9 @@ body {
 .main-content {
   flex: 1; padding: 20px;
   overflow-y: auto; overflow-x: hidden;
-  padding-bottom: 90px; /* Espacio para nav en móvil */
+  padding-bottom: 90px;
 }
 
-/* --- NAVEGACIÓN (Bottom Bar en Móvil, Sidebar en PC) --- */
 .cyber-nav {
   position: fixed; bottom: 0; left: 0; width: 100%;
   background: rgba(8, 9, 13, 0.9);
@@ -82,7 +76,6 @@ body {
   border-bottom: 2px solid var(--neon-cyan);
 }
 
-/* --- HEADER FUTURISTA --- */
 .cyber-header {
   padding: 15px 20px; border-bottom: 1px solid var(--glass-border);
   background: rgba(16, 17, 22, 0.8); backdrop-filter: blur(10px);
@@ -110,17 +103,15 @@ body {
 }
 .system-status.online .status-dot { background: var(--rad-green); box-shadow: 0 0 8px var(--rad-green); }
 
-/* --- COMPONENTES & TARJETAS HOLOGRÁFICAS --- */
 .cyber-card {
   background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  /* Esquinas biseladas estilo Cyberpunk */
   clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
   padding: 25px; margin-bottom: 25px; position: relative;
   transition: all 0.3s ease;
   animation: slideUp 0.5s ease-out;
 }
-.cyber-card::before { /* Borde luminoso superior izquierdo */
+.cyber-card::before {
   content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 3px; background: var(--neon-cyan);
 }
 .cyber-card:hover {
@@ -133,7 +124,6 @@ body {
   display: flex; align-items: center; gap: 10px;
 }
 
-/* --- ENTRADAS Y BOTONES --- */
 .cyber-input {
   width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #333;
   color: var(--neon-cyan); padding: 12px 15px; font-family: var(--font-cyber);
@@ -151,13 +141,11 @@ body {
 .cyber-btn:hover { background: var(--neon-cyan); color: var(--space-black); box-shadow: 0 0 15px var(--neon-cyan); }
 .cyber-btn:disabled { border-color: #555; color: #555; background: transparent; cursor: not-allowed; box-shadow: none; }
 
-/* Botones del Multiverso */
 .btn-yellow { border-color: var(--energy-yellow); color: var(--energy-yellow); }
 .btn-yellow:hover { background: var(--energy-yellow); color: var(--space-black); box-shadow: 0 0 15px var(--energy-yellow); }
 .btn-purple { border-color: var(--dim-purple); color: var(--dim-purple); }
 .btn-purple:hover { background: var(--dim-purple); color: #fff; box-shadow: 0 0 15px var(--dim-purple); }
 
-/* --- LISTA DE COMANDOS INTERACTIVA --- */
 .cmd-search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
 .cmd-category { margin-bottom: 20px; }
 .cmd-category-title { color: var(--elec-turq); font-family: var(--font-cyber); font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid rgba(0,255,209,0.3); padding-bottom: 5px; }
@@ -170,11 +158,41 @@ body {
 .cmd-copy { background: transparent; border: 1px solid #555; color: #aaa; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; transition: 0.3s; }
 .cmd-copy:hover { border-color: var(--elec-turq); color: var(--elec-turq); }
 
-/* --- ANIMACIONES --- */
+/* --- BOTÓN FLOTANTE DE SOPORTE --- */
+.floating-support {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background: rgba(57, 255, 20, 0.15);
+  color: var(--rad-green);
+  border: 1px solid var(--rad-green);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-family: var(--font-cyber);
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  z-index: 1000;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+  backdrop-filter: blur(5px);
+  animation: floatBounce 3s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+.floating-support:hover {
+  background: var(--rad-green);
+  color: var(--space-black);
+  box-shadow: 0 0 25px var(--rad-green);
+}
+
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes floatBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
 
-/* --- DESKTOP MEDIA QUERY --- */
+
 @media (min-width: 768px) {
   .app-container { flex-direction: row; }
   .cyber-nav {
@@ -186,5 +204,6 @@ body {
   .nav-item.activo { border-bottom: none; border-left: 2px solid var(--neon-cyan); background: rgba(0, 245, 255, 0.05); }
   .main-content { padding: 40px; padding-bottom: 40px; }
   .cyber-header { position: absolute; top: 0; right: 0; width: calc(100% - 250px); z-index: 50; }
-  .main-content { margin-top: 70px; } /* Evitar superposición del header */
-    }
+  .main-content { margin-top: 70px; }
+  .floating-support { bottom: 30px; right: 30px; }
+}
