@@ -236,7 +236,7 @@ if (btnLogin) {
   });
 }
 
-// --- 7. CHAT DIMENSIONAL (MODO HACKER) ---
+// --- 7. CHAT DIMENSIONAL (MODO HACKER + REACCIONES) ---
 const chatBox = document.getElementById('chat-box');
 const inputChat = document.getElementById('input-chat');
 const btnEnviarChat = document.getElementById('btn-enviar-chat');
@@ -251,18 +251,34 @@ async function cargarChat() {
     const estaAbajo = chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 10;
 
     chatBox.innerHTML = mensajes.map(m => {
+      // Formatear reacciones si existen
+      let reaccionesHtml = '';
+      if (m.reacciones) {
+        reaccionesHtml = Object.entries(m.reacciones).map(([emoji, count]) => 
+          `<span style="background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3); border-radius: 10px; padding: 2px 6px; font-size: 10px; margin-right: 4px; cursor: pointer; color: var(--neon-cyan);" onclick="reaccionar('${m.id}', '${emoji}')">${emoji} ${count}</span>`
+        ).join('');
+      }
+
       if (m.rol === 'creador') {
         return `
-          <div style="align-self: flex-end; max-width: 85%; background: rgba(161, 0, 255, 0.1); border: 1px solid rgba(161, 0, 255, 0.8); border-radius: 12px 12px 0 12px; padding: 10px 14px; box-shadow: 0 0 15px rgba(161, 0, 255, 0.3);">
+          <div style="align-self: flex-end; max-width: 85%; background: rgba(161, 0, 255, 0.1); border: 1px solid rgba(161, 0, 255, 0.8); border-radius: 12px 12px 0 12px; padding: 10px 14px; box-shadow: 0 0 15px rgba(161, 0, 255, 0.3); position: relative;">
             <div style="font-size: 11px; color: #d78eff; font-weight: bold; margin-bottom: 4px; font-family: var(--font-cyber); letter-spacing: 1px;">👑 THE CREADOR <span style="color: rgba(255,255,255,0.4); font-weight: normal; font-size: 9px; float: right; margin-top: 1px;">${m.time}</span></div>
             <div style="color: #fff; font-size: 14px; line-height: 1.4; text-shadow: 0 0 5px rgba(255,255,255,0.3);">${m.texto}</div>
+            <div style="margin-top: 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px;">
+              ${reaccionesHtml}
+              <button onclick="menuReacciones('${m.id}')" style="background: transparent; border: 1px dashed rgba(215,142,255,0.4); color: #d78eff; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+            </div>
           </div>
         `;
       } else {
         return `
-          <div style="align-self: flex-start; max-width: 85%; background: rgba(0, 245, 255, 0.05); border: 1px solid rgba(0, 245, 255, 0.2); border-radius: 12px 12px 12px 0; padding: 10px 14px;">
+          <div style="align-self: flex-start; max-width: 85%; background: rgba(0, 245, 255, 0.05); border: 1px solid rgba(0, 245, 255, 0.2); border-radius: 12px 12px 12px 0; padding: 10px 14px; position: relative;">
             <div style="font-size: 11px; color: rgba(0, 245, 255, 0.8); margin-bottom: 4px; font-family: var(--font-cyber);">ANÓNIMO <span style="color: rgba(255,255,255,0.3); font-size: 9px; float: right; margin-top: 1px;">${m.time}</span></div>
             <div style="color: #ccc; font-size: 14px; line-height: 1.4;">${m.texto}</div>
+            <div style="margin-top: 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px;">
+              ${reaccionesHtml}
+              <button onclick="menuReacciones('${m.id}')" style="background: transparent; border: 1px dashed rgba(0,245,255,0.4); color: var(--neon-cyan); border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+            </div>
           </div>
         `;
       }
@@ -278,6 +294,28 @@ async function cargarChat() {
     }
   } catch(e) {}
 }
+
+// Función global para disparar la reacción
+window.reaccionar = async function(idMsg, emoji) {
+  try {
+    await fetch(`${API_URL}/api/chat/reaccionar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: Number(idMsg), emoji })
+    });
+    cargarChat();
+  } catch(e) {}
+};
+
+// Menú rápido de selección de emojis al pulsar '+'
+window.menuReacciones = function(idMsg) {
+  const emojis = ['🚀', '🔥', '💀', '❤️', '😂', '⚡'];
+  const seleccion = prompt(`Elige una reacción:\n${emojis.join('  ')}\n\nEscribe el emoji:`);
+  if (seleccion && emojis.includes(seleccion.trim())) {
+    window.reaccionar(idMsg, seleccion.trim());
+  }
+};
+
 
 if (btnEnviarChat && inputChat) {
   btnEnviarChat.addEventListener('click', async () => {
