@@ -29,10 +29,11 @@
       <div class="nav-item activo" data-target="panel">🏠 PANEL</div>
       <div class="nav-item" data-target="subbots">🤖 NODOS</div>
       <div class="nav-item" data-target="flujos">⚡ FLUJOS</div>
+      <div class="nav-item" data-target="login">🔐 ACCESO</div>
       <div class="nav-item" data-target="config">⚙️ CONFIG</div>
     </nav>
 
-    <!-- Área Principal (AQUÍ ESTÁ LA CORRECCIÓN DEL SCROLL) -->
+    <!-- Área Principal -->
     <div style="flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 0;">
       
       <!-- Header Superior con Indicador de Sistema -->
@@ -91,21 +92,18 @@
             </div>
             
             <div id="lista-comandos">
-              <!-- Categoría 1 -->
               <div class="cmd-category">
                 <div class="cmd-category-title">📥 DESCARGAS MULTIMEDIA</div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.tiktok [url]</div><div class="cmd-desc">Descarga videos sin marca de agua</div></div><button class="cmd-copy" data-cmd=".tiktok ">COPIAR</button></div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.instagram [url]</div><div class="cmd-desc">Extrae reels o fotos de IG</div></div><button class="cmd-copy" data-cmd=".instagram ">COPIAR</button></div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.play [url/texto]</div><div class="cmd-desc">Descarga audio de YouTube</div></div><button class="cmd-copy" data-cmd=".play ">COPIAR</button></div>
               </div>
-              <!-- Categoría 2 -->
               <div class="cmd-category">
                 <div class="cmd-category-title">🎨 CREACIÓN Y PERFILES</div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.perfil</div><div class="cmd-desc">Genera tarjeta de perfil multiversal</div></div><button class="cmd-copy" data-cmd=".perfil">COPIAR</button></div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.sticker</div><div class="cmd-desc">Convierte imagen/video en sticker</div></div><button class="cmd-copy" data-cmd=".sticker">COPIAR</button></div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.pinterest [tema]</div><div class="cmd-desc">Crea packs de stickers automáticos</div></div><button class="cmd-copy" data-cmd=".pinterest ">COPIAR</button></div>
               </div>
-              <!-- Categoría 3 -->
               <div class="cmd-category">
                 <div class="cmd-category-title">🛠️ SISTEMA</div>
                 <div class="cmd-item"><div class="cmd-info"><div class="cmd-code">.menu</div><div class="cmd-desc">Despliega el panel interactivo</div></div><button class="cmd-copy" data-cmd=".menu">COPIAR</button></div>
@@ -122,10 +120,23 @@
               <a href="https://theadrianomx.github.io/" target="_blank" class="cyber-btn btn-purple" style="text-align: center; text-decoration: none; display: block;">💻 BLOG CREADOR</a>
             </div>
           </div>
-
         </div>
 
-        <!-- VISTA 4: CONFIGURACIÓN -->
+        <!-- VISTA 4: LOGIN / ACCESO AL PANEL PRIVADO -->
+        <div id="view-login" class="vista-seccion" style="display: none;">
+          <div class="cyber-card" style="max-width: 500px; margin: 0 auto; border-color: rgba(161, 0, 255, 0.5);">
+            <h3 class="card-title" style="color: var(--dim-purple); text-shadow: 0 0 10px rgba(161, 0, 255, 0.5);">
+              🔐 AUTENTICACIÓN DIMENSIONAL
+            </h3>
+            <p style="color: #888; font-size: 13px; margin-bottom: 20px;">
+              Si ya tienes un Sub-Bot activo, ingresa tu número para acceder a tu panel de control privado (Consola, Switches y Ajustes).
+            </p>
+            <input type="text" id="input-login" class="cyber-input" style="border-color: rgba(161, 0, 255, 0.3); color: var(--dim-purple);" placeholder="INGRESA TU NÚMERO (Ej: 5219991234567)">
+            <button id="btn-login" class="cyber-btn btn-purple">ACCEDER AL PANEL PRIVADO</button>
+          </div>
+        </div>
+
+        <!-- VISTA 5: CONFIGURACIÓN -->
         <div id="view-config" class="vista-seccion" style="display: none;">
           <div class="cyber-card">
             <h3 class="card-title">⚙️ PARÁMETROS DEL NÚCLEO</h3>
@@ -136,6 +147,11 @@
       </main>
     </div>
   </div>
+
+  <!-- Botón Flotante de Soporte (WhatsApp) -->
+  <a href="https://wa.me/19724938564?text=Hola,%20necesito%20soporte%20con%20RICK%20OS" target="_blank" class="floating-support">
+    💬 SOPORTE
+  </a>
 
   <script src="core.js"></script>
 </body>
