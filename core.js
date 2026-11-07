@@ -406,7 +406,9 @@ if (btnEnviarChat && inputChat) {
   setInterval(cargarChat, 3000);
 }
 
-// --- 8. CONFIGURACIÓN: TEMA DIMENSIONAL Y CLAVE MAESTRA ---
+// --- 8. CONFIGURACIÓN: TEMA Y TERMINAL INTERACTIVA ---
+
+// Selector de Temas
 const themeButtons = document.querySelectorAll('.theme-btn');
 const rootElement = document.documentElement;
 
@@ -436,20 +438,63 @@ function applyTheme(theme) {
   }
 }
 
-const btnSaveKey = document.getElementById('btn-save-key');
-if (btnSaveKey) {
-  btnSaveKey.addEventListener('click', () => {
-    const inputKey = document.getElementById('input-master-key');
-    const newKey = inputKey ? inputKey.value.trim() : '';
+// Lógica de la Terminal Interactiva
+const terminalScreen = document.getElementById('terminal-screen');
+const terminalInput = document.getElementById('terminal-input');
+const terminalSubmit = document.getElementById('terminal-submit');
 
-    if (!newKey) {
-      alert('⚠️ DATO INVÁLIDO: La clave no puede estar vacía.');
-      return;
-    }
+function ejecutarComandoTerminal() {
+  if (!terminalInput || !terminalScreen) return;
+  const cmd = terminalInput.value.trim();
+  if (!cmd) return;
 
-    localStorage.setItem('rick_master_password', newKey);
-    alert('🔐 Token maestro actualizado localmente para el protocolo Dios.');
-    inputKey.value = '';
+  // Imprimir comando ejecutado
+  terminalScreen.innerHTML += `<div style="color: #fff;">root@rick:~# ${cmd}</div>`;
+  terminalInput.value = '';
+
+  let respuesta = '';
+  const lowerCmd = cmd.toLowerCase();
+
+  if (lowerCmd === 'help') {
+    respuesta = `Comandos disponibles:<br>
+    - <b>status</b>: Muestra el estado actual del núcleo.<br>
+    - <b>pm2 status</b>: Lista los procesos activos en Termux.<br>
+    - <b>clear</b>: Limpia la pantalla de la terminal.<br>
+    - <b>rick</b>: Una opinión sincera de Rick sobre ti.<br>
+    - <b>portal</b>: Genera coordenadas dimensionales aleatorias.`;
+  } else if (lowerCmd === 'status' || lowerCmd === 'pm2 status') {
+    respuesta = `[PM2] Procesos en ejecución:<br>
+    ┌───────────────────┬─────┬─────────┬───────┬──────────┐<br>
+    │ App name          │ id  │ status  │ cpu   │ mem      │<br>
+    ├───────────────────┼─────┼─────────┼───────┼──────────┤<br>
+    │ monitor-rick      │ 0   │ online  │ 0.1%  │ 34.2mb   │<br>
+    │ the-rick-v2       │ 1   │ online  │ 1.4%  │ 128.5mb  │<br>
+    └───────────────────┴─────┴─────────┴───────┴──────────┘`;
+  } else if (lowerCmd === 'clear') {
+    terminalScreen.innerHTML = '';
+    return;
+  } else if (lowerCmd === 'rick') {
+    const frases = [
+      "¿En serio perdiste el tiempo escribiendo 'rick' en una terminal? Eres un idiota, *burp*.",
+      "Tu coeficiente intelectual debe ser tan bajo que consideras que la trigonometría es magia negra.",
+      "Wubba lubba dub-dub, significa 'tengo mucho dolor en esta consola y nadie me ayuda'."
+    ];
+    respuesta = frases[Math.floor(Math.random() * frases.length)];
+  } else if (lowerCmd.startsWith('portal')) {
+    const dim = Math.floor(Math.random() * 9000) + 100;
+    respuesta = `Abriendo portal cuántico hacia la Dimensión C-${dim}... Estabilidad: 42%. ¡Corre antes de que lleguen los federales interdimensionales!`;
+  } else {
+    respuesta = `Comando '${cmd}' no reconocido en esta línea temporal. Escribe 'help' si necesitas ayuda, genio frustrado.`;
+  }
+
+  terminalScreen.innerHTML += `<div style="color: var(--elec-turq); margin-bottom: 6px;">${respuesta}</div>`;
+  terminalScreen.scrollTop = terminalScreen.scrollHeight;
+}
+
+if (terminalSubmit && terminalInput) {
+  terminalSubmit.addEventListener('click', ejecutarComandoTerminal);
+  terminalInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') ejecutarComandoTerminal();
   });
 }
 
