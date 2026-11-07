@@ -21,7 +21,7 @@ menuItems.forEach(item => {
   });
 });
 
-// --- 2. FIRMAS DE SUB-BOTS (DESPLEGABLE) Y USUARIOS REGISTRADOS ---
+// --- 2. GESTIÓN DE NODOS Y USUARIOS (ESTILO PESTAÑAS FLOTANTES) ---
 function calcularUptime(msInicio) {
     if (!msInicio) return 'N/A';
     const diff = Date.now() - msInicio;
@@ -30,13 +30,18 @@ function calcularUptime(msInicio) {
     return horas > 0 ? `${horas}h ${minutos}m` : `${minutos}m`;
 }
 
+let botsCache = [];
+let totalUsersCache = 0;
+
 async function consultarRadarYUsuarios() {
-  const dropdownContainer = document.getElementById('subbots-dropdown-container');
-  const totalUsuariosNum = document.getElementById('total-usuarios-num');
+  const countNodos = document.getElementById('count-nodos');
+  const countUsuarios = document.getElementById('count-usuarios');
+  const totalUsuariosModal = document.getElementById('total-usuarios-modal');
+  const listaNodosModal = document.getElementById('lista-nodos-modal');
   const statusIndicator = document.getElementById('system-status-indicator');
   const statusText = document.getElementById('status-text');
   
-  // 1. Consultar Sub-Bots para la lista desplegable
+  // 1. Obtener Sub-Bots para el modal de nodos
   try {
     const respuesta = await fetch(`${API_URL}/api/subbots_stats`);
     const datos = await respuesta.json();
@@ -44,45 +49,62 @@ async function consultarRadarYUsuarios() {
     if (datos.success) {
       statusIndicator.classList.add('online');
       statusText.innerText = "SYSTEM ONLINE";
-      
-      if (dropdownContainer) {
-        const total = datos.totalActivos || 0;
-        if (total === 0) {
-          dropdownContainer.innerHTML = `<p style="color: var(--elec-turq); font-family: var(--font-cyber); font-size: 13px; margin: 0;">[ 0 ] FIRMAS ACTIVAS EN LA RED</p>`;
+      botsCache = datos.bots || [];
+      if (countNodos) countNodos.innerText = botsCache.length;
+
+      if (listaNodosModal) {
+        if (botsCache.length === 0) {
+          listaNodosModal.innerHTML = '<p style="color: #666; font-size: 13px;">No hay nodos activos en la red.</p>';
         } else {
-          let optionsHtml = datos.bots.map(b => `<option value="${b.id}">NODO: +${b.id} | ${b.firmaWTK || 'SubBot'}</option>`).join('');
-          dropdownContainer.innerHTML = `
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-              <p style="color: var(--rad-green); font-family: var(--font-cyber); font-size: 1rem; margin: 0;">
-                [ ${total} ] FIRMAS DETECTADAS EN LA RED
-              </p>
-              <select class="cyber-input" style="margin-bottom: 0; cursor: pointer;">
-                <option value="" disabled selected>📂 DESPLEGAR FIRMAS DE NODOS</option>
-                ${optionsHtml}
-              </select>
+          listaNodosModal.innerHTML = botsCache.map(b => `
+            <div style="background: rgba(0,0,0,0.4); border-left: 2px solid var(--neon-cyan); padding: 10px; border-radius: 0 6px 6px 0;">
+              <div style="color: var(--neon-cyan); font-size: 12px; font-family: var(--font-cyber);">+${b.id}</div>
+              <div style="color: #ccc; font-size: 13px; margin-top: 2px;">Firma: ${b.firmaWTK || 'SubBot'}</div>
             </div>
-          `;
+          `).join('');
         }
       }
     }
   } catch (error) {
     statusIndicator.classList.remove('online');
     statusText.innerText = "SYSTEM OFFLINE";
-    if (dropdownContainer) {
-      dropdownContainer.innerHTML = '<p style="color: var(--inter-red); font-family: var(--font-cyber); font-size: 12px; margin: 0;">ERROR: SIN ENLACE CON TERMUX.</p>';
-    }
   }
 
-  // 2. Consultar el total de Usuarios Registrados desde el sistema
+  // 2. Obtener Usuarios Registrados
   try {
     const resUser = await fetch(`${API_URL}/api/usuarios_stats`);
     const dataUser = await resUser.json();
-    if (dataUser.success && totalUsuariosNum) {
-      totalUsuariosNum.innerText = dataUser.total;
+    if (dataUser.success) {
+      totalUsersCache = dataUser.total || 0;
+      if (countUsuarios) countUsuarios.innerText = totalUsersCache;
+      if (totalUsuariosModal) totalUsuariosModal.innerText = totalUsersCache;
     }
   } catch (e) {
-    if (totalUsuariosNum) totalUsuariosNum.innerText = "N/A";
+    if (countUsuarios) countUsuarios.innerText = "0";
   }
+}
+
+// Controladores de apertura y cierre de las pestañas modales
+const btnVerNodos = document.getElementById('btn-ver-nodos');
+const modalNodos = document.getElementById('modal-nodos');
+const cerrarModalNodos = document.getElementById('cerrar-modal-nodos');
+
+if (btnVerNodos && modalNodos) {
+  btnVerNodos.addEventListener('click', () => modalNodos.style.display = 'flex');
+}
+if (cerrarModalNodos && modalNodos) {
+  cerrarModalNodos.addEventListener('click', () => modalNodos.style.display = 'none');
+}
+
+const btnVerUsuarios = document.getElementById('btn-ver-usuarios');
+const modalUsuarios = document.getElementById('modal-usuarios');
+const cerrarModalUsuarios = document.getElementById('cerrar-modal-usuarios');
+
+if (btnVerUsuarios && modalUsuarios) {
+  btnVerUsuarios.addEventListener('click', () => modalUsuarios.style.display = 'flex');
+}
+if (cerrarModalUsuarios && modalUsuarios) {
+  cerrarModalUsuarios.addEventListener('click', () => modalUsuarios.style.display = 'none');
 }
 
 // --- 3. TELEMETRÍA DETALLADA DE SUB-BOTS (VISTA NODOS) ---
@@ -381,7 +403,7 @@ if (btnEnviarChat && inputChat) {
   setInterval(cargarChat, 3000);
 }
 
-// Inicializar y consultar el nuevo radar y usuarios
+// Inicializar y consultar el estado de nodos y usuarios
 consultarRadarYUsuarios();
 setInterval(consultarRadarYUsuarios, 5000);
-            
+          
