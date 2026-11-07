@@ -236,6 +236,99 @@ if (btnLogin) {
   });
 }
 
+// --- 7. CHAT DIMENSIONAL (MODO HACKER) ---
+const chatBox = document.getElementById('chat-box');
+const inputChat = document.getElementById('input-chat');
+const btnEnviarChat = document.getElementById('btn-enviar-chat');
+let ultimoScroll = true; 
+
+async function cargarChat() {
+  if (!chatBox) return;
+  try {
+    const res = await fetch(`${API_URL}/api/chat`);
+    const mensajes = await res.json();
+    
+    const estaAbajo = chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 10;
+
+    chatBox.innerHTML = mensajes.map(m => {
+      if (m.rol === 'creador') {
+        return `
+          <div style="align-self: flex-end; max-width: 85%; background: rgba(161, 0, 255, 0.1); border: 1px solid rgba(161, 0, 255, 0.8); border-radius: 12px 12px 0 12px; padding: 10px 14px; box-shadow: 0 0 15px rgba(161, 0, 255, 0.3);">
+            <div style="font-size: 11px; color: #d78eff; font-weight: bold; margin-bottom: 4px; font-family: var(--font-cyber); letter-spacing: 1px;">👑 THE CREADOR <span style="color: rgba(255,255,255,0.4); font-weight: normal; font-size: 9px; float: right; margin-top: 1px;">${m.time}</span></div>
+            <div style="color: #fff; font-size: 14px; line-height: 1.4; text-shadow: 0 0 5px rgba(255,255,255,0.3);">${m.texto}</div>
+          </div>
+        `;
+      } else {
+        return `
+          <div style="align-self: flex-start; max-width: 85%; background: rgba(0, 245, 255, 0.05); border: 1px solid rgba(0, 245, 255, 0.2); border-radius: 12px 12px 12px 0; padding: 10px 14px;">
+            <div style="font-size: 11px; color: rgba(0, 245, 255, 0.8); margin-bottom: 4px; font-family: var(--font-cyber);">ANÓNIMO <span style="color: rgba(255,255,255,0.3); font-size: 9px; float: right; margin-top: 1px;">${m.time}</span></div>
+            <div style="color: #ccc; font-size: 14px; line-height: 1.4;">${m.texto}</div>
+          </div>
+        `;
+      }
+    }).join('');
+    
+    if (mensajes.length === 0) {
+      chatBox.innerHTML = '<p style="color: #666; font-size: 12px; text-align: center; margin-top: auto; margin-bottom: auto;">La sala está vacía. Sé el primero en hablar.</p>';
+    }
+
+    if (estaAbajo || ultimoScroll) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+      ultimoScroll = false;
+    }
+  } catch(e) {}
+}
+
+if (btnEnviarChat && inputChat) {
+  btnEnviarChat.addEventListener('click', async () => {
+    let texto = inputChat.value.trim();
+    if (!texto) return;
+
+    let rol = "user";
+    let password = "";
+
+    // DETECCIÓN DEL COMANDO OCULTO /rick
+    if (texto.startsWith('/rick ')) {
+      texto = texto.replace('/rick ', '');
+      password = prompt('🔐 PROTOCOLO DIOS:\nIngresa la contraseña maestra de Termux para hablar como el Creador:');
+      if (password === null) return; 
+      rol = "creador";
+    }
+
+    inputChat.value = '';
+    btnEnviarChat.disabled = true;
+    
+    try {
+      const res = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto, rol, password })
+      });
+      
+      if (res.status === 403) {
+        alert("❌ ACCESO DENEGADO: La contraseña es incorrecta. Infiltrado detectado.");
+      } else {
+        ultimoScroll = true; 
+        await cargarChat();
+      }
+    } catch(e) {
+      alert("Error de conexión al Enviar.");
+    } finally {
+      btnEnviarChat.disabled = false;
+      inputChat.focus();
+    }
+  });
+  
+  inputChat.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') btnEnviarChat.click();
+  });
+
+  // Polling de chat cada 3 segundos
+  cargarChat();
+  setInterval(cargarChat, 3000);
+}
+
 // Inicializar
 consultarRadar();
 setInterval(consultarRadar, 5000);
+      
