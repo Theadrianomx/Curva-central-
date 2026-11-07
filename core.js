@@ -21,42 +21,7 @@ menuItems.forEach(item => {
   });
 });
 
-// --- 2. RADAR Y STATUS GLOBAL ---
-async function consultarRadar() {
-  const radarDiv = document.getElementById('radar-datos');
-  const statusIndicator = document.getElementById('system-status-indicator');
-  const statusText = document.getElementById('status-text');
-  
-  try {
-    const respuesta = await fetch(`${API_URL}/api/subbots_stats`);
-    const datos = await respuesta.json();
-    
-    if (datos.success) {
-      statusIndicator.classList.add('online');
-      statusText.innerText = "SYSTEM ONLINE";
-      
-      if (radarDiv) {
-        if (datos.totalActivos === 0) {
-          radarDiv.innerHTML = `<p style="color: var(--elec-turq); font-family: var(--font-cyber);">[ 0 ] DIMENSIONES ACTIVAS</p>`;
-        } else {
-          radarDiv.innerHTML = `
-            <p style="color: var(--rad-green); font-family: var(--font-cyber); font-size: 1.2rem;">
-              [ ${datos.totalActivos} ] FIRMAS DETECTADAS EN LA RED
-            </p>`;
-        }
-      }
-    }
-  } catch (error) {
-    statusIndicator.classList.remove('online');
-    statusText.innerText = "SYSTEM OFFLINE";
-    
-    if (radarDiv) {
-      radarDiv.innerHTML = '<p style="color: var(--inter-red); font-family: var(--font-cyber);">ERROR: NO SE PUDO ESTABLECER ENLACE CON TERMUX.</p>';
-    }
-  }
-}
-
-// --- 3. TELEMETRÍA DETALLADA DE SUB-BOTS ---
+// --- 2. FIRMAS DE SUB-BOTS (DESPLEGABLE) Y USUARIOS REGISTRADOS ---
 function calcularUptime(msInicio) {
     if (!msInicio) return 'N/A';
     const diff = Date.now() - msInicio;
@@ -65,6 +30,62 @@ function calcularUptime(msInicio) {
     return horas > 0 ? `${horas}h ${minutos}m` : `${minutos}m`;
 }
 
+async function consultarRadarYUsuarios() {
+  const dropdownContainer = document.getElementById('subbots-dropdown-container');
+  const totalUsuariosNum = document.getElementById('total-usuarios-num');
+  const statusIndicator = document.getElementById('system-status-indicator');
+  const statusText = document.getElementById('status-text');
+  
+  // 1. Consultar Sub-Bots para la lista desplegable
+  try {
+    const respuesta = await fetch(`${API_URL}/api/subbots_stats`);
+    const datos = await respuesta.json();
+    
+    if (datos.success) {
+      statusIndicator.classList.add('online');
+      statusText.innerText = "SYSTEM ONLINE";
+      
+      if (dropdownContainer) {
+        const total = datos.totalActivos || 0;
+        if (total === 0) {
+          dropdownContainer.innerHTML = `<p style="color: var(--elec-turq); font-family: var(--font-cyber); font-size: 13px; margin: 0;">[ 0 ] FIRMAS ACTIVAS EN LA RED</p>`;
+        } else {
+          let optionsHtml = datos.bots.map(b => `<option value="${b.id}">NODO: +${b.id} | ${b.firmaWTK || 'SubBot'}</option>`).join('');
+          dropdownContainer.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <p style="color: var(--rad-green); font-family: var(--font-cyber); font-size: 1rem; margin: 0;">
+                [ ${total} ] FIRMAS DETECTADAS EN LA RED
+              </p>
+              <select class="cyber-input" style="margin-bottom: 0; cursor: pointer;">
+                <option value="" disabled selected>📂 DESPLEGAR FIRMAS DE NODOS</option>
+                ${optionsHtml}
+              </select>
+            </div>
+          `;
+        }
+      }
+    }
+  } catch (error) {
+    statusIndicator.classList.remove('online');
+    statusText.innerText = "SYSTEM OFFLINE";
+    if (dropdownContainer) {
+      dropdownContainer.innerHTML = '<p style="color: var(--inter-red); font-family: var(--font-cyber); font-size: 12px; margin: 0;">ERROR: SIN ENLACE CON TERMUX.</p>';
+    }
+  }
+
+  // 2. Consultar el total de Usuarios Registrados desde el sistema
+  try {
+    const resUser = await fetch(`${API_URL}/api/usuarios_stats`);
+    const dataUser = await resUser.json();
+    if (dataUser.success && totalUsuariosNum) {
+      totalUsuariosNum.innerText = dataUser.total;
+    }
+  } catch (e) {
+    if (totalUsuariosNum) totalUsuariosNum.innerText = "N/A";
+  }
+}
+
+// --- 3. TELEMETRÍA DETALLADA DE SUB-BOTS (VISTA NODOS) ---
 async function cargarSubBotsDetallados() {
   const contenedor = document.getElementById('contenedor-subbots-detallado');
   if (!contenedor) return;
@@ -251,7 +272,6 @@ async function cargarChat() {
     const estaAbajo = chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 10;
 
     chatBox.innerHTML = mensajes.map(m => {
-      // Formatear reacciones si existen
       let reaccionesHtml = '';
       if (m.reacciones) {
         reaccionesHtml = Object.entries(m.reacciones).map(([emoji, count]) => 
@@ -295,7 +315,6 @@ async function cargarChat() {
   } catch(e) {}
 }
 
-// Función global para disparar la reacción
 window.reaccionar = async function(idMsg, emoji) {
   try {
     await fetch(`${API_URL}/api/chat/reaccionar`, {
@@ -307,7 +326,6 @@ window.reaccionar = async function(idMsg, emoji) {
   } catch(e) {}
 };
 
-// Menú rápido de selección de emojis al pulsar '+'
 window.menuReacciones = function(idMsg) {
   const emojis = ['🚀', '🔥', '💀', '❤️', '😂', '⚡'];
   const seleccion = prompt(`Elige una reacción:\n${emojis.join('  ')}\n\nEscribe el emoji:`);
@@ -315,7 +333,6 @@ window.menuReacciones = function(idMsg) {
     window.reaccionar(idMsg, seleccion.trim());
   }
 };
-
 
 if (btnEnviarChat && inputChat) {
   btnEnviarChat.addEventListener('click', async () => {
@@ -325,7 +342,6 @@ if (btnEnviarChat && inputChat) {
     let rol = "user";
     let password = "";
 
-    // DETECCIÓN DEL COMANDO OCULTO /rick
     if (texto.startsWith('/rick ')) {
       texto = texto.replace('/rick ', '');
       password = prompt('🔐 PROTOCOLO DIOS:\nIngresa la contraseña maestra de Termux para hablar como el Creador:');
@@ -361,12 +377,11 @@ if (btnEnviarChat && inputChat) {
     if (e.key === 'Enter') btnEnviarChat.click();
   });
 
-  // Polling de chat cada 3 segundos
   cargarChat();
   setInterval(cargarChat, 3000);
 }
 
-// Inicializar
-consultarRadar();
-setInterval(consultarRadar, 5000);
-      
+// Inicializar y consultar el nuevo radar y usuarios
+consultarRadarYUsuarios();
+setInterval(consultarRadarYUsuarios, 5000);
+            
