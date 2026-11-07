@@ -1,6 +1,6 @@
 // --- RICK OS V2.0 : CYBERPUNK MULTIVERSE EDITION ---
 // By THEADRIANOMX
-const API_URL = 'https://panel.curvainfinitacentral.com';
+const API_URL = 'https://panel.curvainfinitacentral.com'; // ⚠️ Asegúrate de que esta URL apunte al servidor donde corre tu monitor_api.js actual
 
 // --- 1. NAVEGACIÓN Y VISTAS ---
 const menuItems = document.querySelectorAll('.nav-item');
@@ -70,7 +70,7 @@ async function consultarRadarYUsuarios() {
     statusText.innerText = "SYSTEM OFFLINE";
   }
 
-  // 2. Obtener Usuarios Registrados
+  // 2. Obtener Usuarios Registrados desde la API
   try {
     const resUser = await fetch(`${API_URL}/api/usuarios_stats`);
     const dataUser = await resUser.json();
@@ -78,9 +78,12 @@ async function consultarRadarYUsuarios() {
       totalUsersCache = dataUser.total || 0;
       if (countUsuarios) countUsuarios.innerText = totalUsersCache;
       if (totalUsuariosModal) totalUsuariosModal.innerText = totalUsersCache;
+    } else {
+      if (countUsuarios) countUsuarios.innerText = "0";
     }
   } catch (e) {
-    if (countUsuarios) countUsuarios.innerText = "0";
+    console.error("Error al consultar usuarios:", e);
+    if (countUsuarios) countUsuarios.innerText = "Err";
   }
 }
 
@@ -352,7 +355,7 @@ window.menuReacciones = function(idMsg) {
   const emojis = ['🚀', '🔥', '💀', '❤️', '😂', '⚡'];
   const seleccion = prompt(`Elige una reacción:\n${emojis.join('  ')}\n\nEscribe el emoji:`);
   if (seleccion && emojis.includes(seleccion.trim())) {
-    window.reaccionar(idMsg, seleccion.trim());
+    window.reaccionar(idMsg, seleccion.trimð());
   }
 };
 
@@ -406,4 +409,4 @@ if (btnEnviarChat && inputChat) {
 // Inicializar y consultar el estado de nodos y usuarios
 consultarRadarYUsuarios();
 setInterval(consultarRadarYUsuarios, 5000);
-          
+                              
