@@ -177,13 +177,34 @@
           </div>
         </div>
 
-        <!-- VISTA 5: CONFIGURACIÓN -->
+                <!-- VISTA 5: CONFIGURACIÓN (SELECTOR DE TEMA Y CLAVE MAESTRA) -->
         <div id="view-config" class="vista-seccion" style="display: none;">
+          
+          <!-- OPCIÓN 1: SELECTOR DE TEMA -->
           <div class="cyber-card">
-            <h3 class="card-title">⚙️ PARÁMETROS DEL NÚCLEO</h3>
-            <p style="color: #888;">Configuración encriptada. Solo acceso nivel Rick.</p>
+            <h3 class="card-title">🎨 TEMA DIMENSIONAL</h3>
+            <p style="color: #888; font-size: 13px; margin-bottom: 15px;">Selecciona la frecuencia visual del núcleo multiversal.</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+              <button class="cyber-btn theme-btn" data-theme="cyan" style="font-size: 11px; padding: 10px;">CYAN RICK</button>
+              <button class="cyber-btn theme-btn btn-purple" data-theme="purple" style="font-size: 11px; padding: 10px;">PURPLE DIMENSION</button>
+              <button class="cyber-btn theme-btn btn-yellow" data-theme="yellow" style="font-size: 11px; padding: 10px;">TOXIC GREEN</button>
+            </div>
           </div>
+
+          <!-- OPCIÓN 3: GESTIÓN DE CLAVE MAESTRA -->
+          <div class="cyber-card" style="border-color: rgba(161, 0, 255, 0.5);">
+            <h3 class="card-title" style="color: var(--dim-purple); text-shadow: 0 0 10px rgba(161, 0, 255, 0.5);">
+              🔐 PROTOCOLO DIOS (CLAVE MAESTRA)
+            </h3>
+            <p style="color: #888; font-size: 13px; margin-bottom: 15px;">
+              Actualiza o verifica el token de autorización para interactuar como <strong>THE CREADOR</strong> en el chat interdimensional.
+            </p>
+            <input type="password" id="input-master-key" class="cyber-input" style="border-color: rgba(161, 0, 255, 0.3); color: var(--dim-purple);" placeholder="NUEVA CONTRASEÑA MAESTRA">
+            <button id="btn-save-key" class="cyber-btn btn-purple">ACTUALIZAR TOKEN</button>
+          </div>
+
         </div>
+
 
       </main>
     </div>
