@@ -21,7 +21,7 @@ menuItems.forEach(item => {
   });
 });
 
-// --- 2. RADAR Y STATUS GLOBAL (Conectado al Header) ---
+// --- 2. RADAR Y STATUS GLOBAL ---
 async function consultarRadar() {
   const radarDiv = document.getElementById('radar-datos');
   const statusIndicator = document.getElementById('system-status-indicator');
@@ -198,29 +198,41 @@ copyBtns.forEach(btn => {
   });
 });
 
-// --- 6. AUTENTICACIÓN / ACCESO AL PANEL PRIVADO ---
+// --- 6. AUTENTICACIÓN SECURE / ACCESO AL PANEL PRIVADO ---
 const btnLogin = document.getElementById('btn-login');
 if (btnLogin) {
-  btnLogin.addEventListener('click', () => {
+  btnLogin.addEventListener('click', async () => {
     const inputLogin = document.getElementById('input-login');
     const numero = inputLogin ? inputLogin.value.trim().replace(/\D/g, '') : '';
 
     if (!numero) {
-      alert('DATO INVÁLIDO: Debes ingresar tu número de WhatsApp registrado.');
+      alert('DATO INVÁLIDO: Ingresa un número.');
       return;
     }
 
-    btnLogin.innerText = 'ENLAZANDO...';
+    btnLogin.innerText = 'VERIFICANDO CREDENCIALES...';
     btnLogin.disabled = true;
 
-    setTimeout(() => {
-      const urlPanel = `https://sistema-multiversal-rickc-137.site/?id=${numero}`;
-      window.open(urlPanel, '_blank');
-      
-      btnLogin.innerText = 'ACCEDER AL PANEL PRIVADO';
+    try {
+      const res = await fetch(`${API_URL}/api/solicitar_acceso`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ numero: numero })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        alert('🚀 SOLICITUD ACEPTADA\nSi el número tiene un nodo activo, hemos enviado tu enlace de acceso seguro (con tu token) directamente a tu chat privado de WhatsApp.');
+        inputLogin.value = '';
+      } else {
+        alert('Error en el enlace de seguridad.');
+      }
+    } catch (err) {
+      alert('NO HAY CONEXIÓN CON EL NÚCLEO.');
+    } finally {
+      btnLogin.innerText = 'SOLICITAR LLAVE DE ACCESO';
       btnLogin.disabled = false;
-      inputLogin.value = '';
-    }, 800);
+    }
   });
 }
 
