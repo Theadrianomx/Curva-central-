@@ -61,23 +61,41 @@
             </div>
           </div>
 
-          <!-- BLOQUE 1: FIRMAS DE SUB-BOTS (LISTA DESPLEGABLE) -->
+                    <!-- BLOQUE UNIFICADO: ESTADÍSTICAS Y NODOS -->
           <div class="cyber-card">
-            <h3 class="card-title">🤖 FIRMAS DE SUB-BOTS ACTIVOS</h3>
-            <div id="subbots-dropdown-container">
-              <p style="color: #666; font-family: var(--font-cyber); font-size: 13px; margin: 0;">Sincronizando espectro...</p>
+            <h3 class="card-title">🌐 ESTADO DE LA RED</h3>
+            <p style="color: #888; font-size: 12px; margin-bottom: 15px;">Control de nodos activos y registros del multiverso.</p>
+            
+            <!-- Botones lado a lado -->
+            <div style="display: flex; gap: 10px;">
+              <button id="btn-ver-nodos" class="cyber-btn" style="flex: 1; font-size: 11px; padding: 10px 5px;">🤖 NODOS (<span id="count-nodos">0</span>)</button>
+              <button id="btn-ver-usuarios" class="cyber-btn btn-purple" style="flex: 1; font-size: 11px; padding: 10px 5px;">👥 USUARIOS (<span id="count-usuarios">0</span>)</button>
             </div>
           </div>
 
-          <!-- BLOQUE 2: USUARIOS REGISTRADOS -->
-          <div class="cyber-card">
-            <h3 class="card-title">👥 BASE DE DATOS DE USUARIOS</h3>
-            <div id="usuarios-stats-box">
-              <p style="color: var(--elec-turq); font-family: var(--font-cyber); font-size: 1.1rem; margin: 0;">
-                [ <span id="total-usuarios-num">...</span> ] USUARIOS REGISTRADOS EN EL SISTEMA
-              </p>
+          <!-- MODAL / PESTAÑA FLOTANTE PARA NODOS -->
+          <div id="modal-nodos" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(8,9,13,0.85); backdrop-filter: blur(8px); z-index: 999; justify-content: center; align-items: center; padding: 20px;">
+            <div class="cyber-card" style="width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; margin: 0;">
+              <h3 class="card-title">🤖 NODOS ACTIVOS</h3>
+              <div id="lista-nodos-modal" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                <p style="color: #666; font-size: 13px;">Cargando nodos...</p>
+              </div>
+              <button id="cerrar-modal-nodos" class="cyber-btn" style="border-color: var(--inter-red); color: var(--inter-red);">CERRAR VENTANA</button>
             </div>
           </div>
+
+          <!-- MODAL / PESTAÑA FLOTANTE PARA USUARIOS -->
+          <div id="modal-usuarios" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(8,9,13,0.85); backdrop-filter: blur(8px); z-index: 999; justify-content: center; align-items: center; padding: 20px;">
+            <div class="cyber-card" style="width: 100%; max-width: 400px; margin: 0; border-color: var(--dim-purple);">
+              <h3 class="card-title" style="color: var(--dim-purple);">👥 REGISTROS</h3>
+              <div style="text-align: center; padding: 20px 0;">
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 10px;">Total de usuarios registrados en el sistema:</p>
+                <span id="total-usuarios-modal" style="color: var(--neon-cyan); font-size: 2.5rem; font-family: var(--font-cyber); font-weight: bold; text-shadow: 0 0 15px var(--neon-cyan);">0</span>
+              </div>
+              <button id="cerrar-modal-usuarios" class="cyber-btn btn-purple">CERRAR VENTANA</button>
+            </div>
+          </div>
+
 
           <!-- 🛰️ CHAT INTERDIMENSIONAL (HACKER MODE) -->
           <div class="cyber-card" style="margin-top: 20px; display: flex; flex-direction: column; height: 350px;">
