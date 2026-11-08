@@ -179,65 +179,76 @@
 
 
 
-        <!-- VISTA 5: CONFIGURACIÓN (CENTRO DE INGENIERÍA CUÁNTICA) -->
+        <!-- VISTA 5: CONFIGURACIÓN (INTERFAZ RICK PRIME - NIVEL DIOS) -->
         <div id="view-config" class="vista-seccion" style="display: none;">
           
-          <!-- SELECTOR DE TEMA -->
-          <div class="cyber-card">
-            <h3 class="card-title">🎨 TEMA DIMENSIONAL</h3>
-            <p style="color: #888; font-size: 13px; margin-bottom: 15px;">Selecciona la frecuencia visual del núcleo multiversal.</p>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-              <button class="cyber-btn theme-btn" data-theme="cyan" style="font-size: 11px; padding: 10px;">CYAN RICK</button>
-              <button class="cyber-btn theme-btn btn-purple" data-theme="purple" style="font-size: 11px; padding: 10px;">PURPLE DIMENSION</button>
-              <button class="cyber-btn theme-btn btn-yellow" data-theme="yellow" style="font-size: 11px; padding: 10px;">TOXIC GREEN</button>
+          <!-- SELECTOR DE TEMA HOLOGRÁFICO -->
+          <div class="cyber-card" style="background: linear-gradient(135deg, rgba(12,14,20,0.95), rgba(6,7,10,0.98)); border: 1px solid rgba(0,245,255,0.25); box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,245,255,0.03);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h3 class="card-title" style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.95rem;">🎨 FRECUENCIA VISUAL DE LA CURVA</h3>
+              <span style="font-size: 9px; color: var(--neon-cyan); font-family: monospace; border: 1px solid var(--neon-cyan); padding: 1px 5px; border-radius: 2px;">PRIME-UI V2</span>
+            </div>
+            <p style="color: #7a8898; font-size: 12px; margin-bottom: 15px;">Selecciona el perfil cromático del núcleo central.</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+              <button class="cyber-btn theme-btn" data-theme="cyan" style="font-size: 10px; padding: 10px 4px; letter-spacing: 1px; background: rgba(0,245,255,0.05);">CYAN PRIME</button>
+              <button class="cyber-btn theme-btn btn-purple" data-theme="purple" style="font-size: 10px; padding: 10px 4px; letter-spacing: 1px; background: rgba(161,0,255,0.05);">OMEGA PURPLE</button>
+              <button class="cyber-btn theme-btn btn-yellow" data-theme="yellow" style="font-size: 10px; padding: 10px 4px; letter-spacing: 1px; background: rgba(57,255,20,0.05);">TOXIC PRIME</button>
             </div>
           </div>
 
-          <!-- ESTACIÓN DE TELEMETRÍA CUÁNTICA (SUSTITUYE A LA TERMINAL) -->
-          <div class="cyber-card" style="background: rgba(4, 5, 7, 0.9); border-color: var(--neon-cyan);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <h3 class="card-title" style="margin-bottom: 0;">⚛️ ESTABILIZADOR DE LA CURVA</h3>
-              <span id="quantum-status" style="font-size: 10px; font-family: var(--font-cyber); color: var(--rad-green); border: 1px solid var(--rad-green); padding: 2px 6px; border-radius: 4px;">ESTABLE (99.4%)</span>
-            </div>
-            <p style="color: #888; font-size: 12px; margin-bottom: 15px;">Monitor de entropía y control de micro-universos del núcleo.</p>
+          <!-- ESTACIÓN DE INGENIERÍA CENTRAL (ESTILO RICK PRIME) -->
+          <div class="cyber-card" style="background: linear-gradient(180deg, rgba(8,10,15,0.98), rgba(3,4,6,0.99)); border: 1px solid rgba(161,0,255,0.4); box-shadow: 0 0 25px rgba(161,0,255,0.15), inset 0 0 20px rgba(0,0,0,0.9);">
             
-            <!-- Barras de Telemetría -->
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; font-family: monospace; font-size: 11px;">
+            <!-- Encabezado HUD -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 15px;">
               <div>
-                <div style="display: flex; justify-content: space-between; color: #aaa; margin-bottom: 3px;">
-                  <span>ENTROPÍA DEL PORTAL GUN</span>
-                  <span id="val-entropy" style="color: var(--neon-cyan);">42.8%</span>
-                </div>
-                <div style="background: rgba(0,0,0,0.6); height: 6px; border-radius: 3px; border: 1px solid rgba(0,245,255,0.2); overflow: hidden;">
+                <h3 class="card-title" style="color: #fff; letter-spacing: 1.5px; margin-bottom: 2px;">⚡ MATRIZ DE TELEMETRÍA PRIME</h3>
+                <span style="font-size: 10px; color: #666; font-family: monospace;">CENTRAL FINITE CURVE OVERRIDE</span>
+              </div>
+              <div id="quantum-status" style="font-size: 10px; font-family: monospace; color: var(--rad-green); background: rgba(57,255,20,0.08); border: 1px solid rgba(57,255,20,0.3); padding: 4px 8px; border-radius: 3px; text-shadow: 0 0 8px rgba(57,255,20,0.4);">
+                ● NÚCLEO ESTABLE
+              </div>
+            </div>
+
+            <!-- Panel de Datos Cuánticos (Estilo Monitor Tecnológico Avanzado) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+              
+              <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(0,245,255,0.15); border-radius: 6px; padding: 10px; position: relative; overflow: hidden;">
+                <div style="font-size: 9px; color: #777; font-family: monospace; margin-bottom: 4px; letter-spacing: 1px;">ENTROPÍA PORTAL</div>
+                <div id="val-entropy" style="font-size: 1.2rem; font-family: monospace; color: var(--neon-cyan); font-weight: bold; text-shadow: 0 0 10px rgba(0,245,255,0.3);">42.8%</div>
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(0,245,255,0.2);">
                   <div id="bar-entropy" style="width: 42.8%; height: 100%; background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan);"></div>
                 </div>
               </div>
 
-              <div>
-                <div style="display: flex; justify-content: space-between; color: #aaa; margin-bottom: 3px;">
-                  <span>ENERGÍA DE LA MICRO-BATERÍA</span>
-                  <span style="color: var(--rad-green);">88.2%</span>
-                </div>
-                <div style="background: rgba(0,0,0,0.6); height: 6px; border-radius: 3px; border: 1px solid rgba(57,255,20,0.2); overflow: hidden;">
+              <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(57,255,20,0.15); border-radius: 6px; padding: 10px; position: relative; overflow: hidden;">
+                <div style="font-size: 9px; color: #777; font-family: monospace; margin-bottom: 4px; letter-spacing: 1px;">MICRO-BATERÍA</div>
+                <div style="font-size: 1.2rem; font-family: monospace; color: var(--rad-green); font-weight: bold; text-shadow: 0 0 10px rgba(57,255,20,0.3);">88.2%</div>
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(57,255,20,0.2);">
                   <div style="width: 88.2%; height: 100%; background: var(--rad-green); box-shadow: 0 0 8px var(--rad-green);"></div>
                 </div>
               </div>
+
             </div>
 
-            <!-- Panel de Controles de Emergencia -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <button id="btn-recalibrar" class="cyber-btn" style="font-size: 11px; padding: 10px 5px;">RECALIBRAR NÚCLEO</button>
-              <button id="btn-purga" class="cyber-btn" style="font-size: 11px; padding: 10px 5px; border-color: var(--inter-red); color: var(--inter-red);">PROTOCOLO PURGA</button>
+            <!-- Botones de Mando Táctico -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+              <button id="btn-recalibrar" class="cyber-btn" style="font-size: 10px; padding: 12px 6px; letter-spacing: 1px; border-color: rgba(0,245,255,0.4); background: rgba(0,245,255,0.05);">⚡ RECALIBRAR</button>
+              <button id="btn-purga" class="cyber-btn" style="font-size: 10px; padding: 12px 6px; letter-spacing: 1px; border-color: rgba(255,0,85,0.5); color: #ff0055; background: rgba(255,0,85,0.05);">☠️ PROTOCOLO PURGA</button>
             </div>
 
-            <!-- Pantalla de Log Cuántico -->
-            <div id="quantum-log" style="background: #000; border: 1px solid rgba(0,245,255,0.2); border-radius: 4px; padding: 10px; height: 100px; overflow-y: auto; font-family: monospace; font-size: 10px; color: #888; margin-top: 15px;">
-              <div>[SYSTEM]: Núcleo sincronizado con la dimensión C-137.</div>
-              <div>[INFO]: Sub-bots operando sin anomalías temporales.</div>
+            <!-- Terminal de Registros con marco futurista -->
+            <div style="background: #020305; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 10px; height: 110px; overflow-y: auto; font-family: monospace; font-size: 10px; color: #8892b0; box-shadow: inset 0 0 12px rgba(0,0,0,0.9);">
+              <div style="color: #4a5568; margin-bottom: 3px;">// SYSTEM LOGS - SECURE OVERRIDE ACTIVE</div>
+              <div id="quantum-log" style="display: flex; flex-direction: column; gap: 3px;">
+                <div>[PRIME]: Núcleo sincronizado con la dimensión C-137.</div>
+                <div>[SECURE]: Red de sub-bots blindada contra intrusos.</div>
+              </div>
             </div>
+
           </div>
-
         </div>
+
         
 
 
