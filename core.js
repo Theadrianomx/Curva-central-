@@ -406,7 +406,9 @@ if (btnEnviarChat && inputChat) {
   setInterval(cargarChat, 3000);
 }
 
-// --- 8. CONFIGURACIÓN: TEMA Y TERMINAL INTERACTIVA ---
+
+
+// --- 8. CONFIGURACIÓN: TEMA Y CENTRO DE INGENIERÍA CUÁNTICA ---
 
 // Selector de Temas
 const themeButtons = document.querySelectorAll('.theme-btn');
@@ -438,63 +440,68 @@ function applyTheme(theme) {
   }
 }
 
-// Lógica de la Terminal Interactiva
-const terminalScreen = document.getElementById('terminal-screen');
-const terminalInput = document.getElementById('terminal-input');
-const terminalSubmit = document.getElementById('terminal-submit');
 
-function ejecutarComandoTerminal() {
-  if (!terminalInput || !terminalScreen) return;
-  const cmd = terminalInput.value.trim();
-  if (!cmd) return;
+// Lógica de Telemetría Cuántica y Botones de Ingeniería con Protocolo de Seguridad
+const btnRecalibrar = document.getElementById('btn-recalibrar');
+const btnPurga = document.getElementById('btn-purga');
+const quantumLog = document.getElementById('quantum-log');
+const barEntropy = document.getElementById('bar-entropy');
+const valEntropy = document.getElementById('val-entropy');
+const quantumStatus = document.getElementById('quantum-status');
 
-  // Imprimir comando ejecutado
-  terminalScreen.innerHTML += `<div style="color: #fff;">root@rick:~# ${cmd}</div>`;
-  terminalInput.value = '';
-
-  let respuesta = '';
-  const lowerCmd = cmd.toLowerCase();
-
-  if (lowerCmd === 'help') {
-    respuesta = `Comandos disponibles:<br>
-    - <b>status</b>: Muestra el estado actual del núcleo.<br>
-    - <b>pm2 status</b>: Lista los procesos activos en Termux.<br>
-    - <b>clear</b>: Limpia la pantalla de la terminal.<br>
-    - <b>rick</b>: Una opinión sincera de Rick sobre ti.<br>
-    - <b>portal</b>: Genera coordenadas dimensionales aleatorias.`;
-  } else if (lowerCmd === 'status' || lowerCmd === 'pm2 status') {
-    respuesta = `[PM2] Procesos en ejecución:<br>
-    ┌───────────────────┬─────┬─────────┬───────┬──────────┐<br>
-    │ App name          │ id  │ status  │ cpu   │ mem      │<br>
-    ├───────────────────┼─────┼─────────┼───────┼──────────┤<br>
-    │ monitor-rick      │ 0   │ online  │ 0.1%  │ 34.2mb   │<br>
-    │ the-rick-v2       │ 1   │ online  │ 1.4%  │ 128.5mb  │<br>
-    └───────────────────┴─────┴─────────┴───────┴──────────┘`;
-  } else if (lowerCmd === 'clear') {
-    terminalScreen.innerHTML = '';
-    return;
-  } else if (lowerCmd === 'rick') {
-    const frases = [
-      "¿En serio perdiste el tiempo escribiendo 'rick' en una terminal? Eres un idiota, *burp*.",
-      "Tu coeficiente intelectual debe ser tan bajo que consideras que la trigonometría es magia negra.",
-      "Wubba lubba dub-dub, significa 'tengo mucho dolor en esta consola y nadie me ayuda'."
-    ];
-    respuesta = frases[Math.floor(Math.random() * frases.length)];
-  } else if (lowerCmd.startsWith('portal')) {
-    const dim = Math.floor(Math.random() * 9000) + 100;
-    respuesta = `Abriendo portal cuántico hacia la Dimensión C-${dim}... Estabilidad: 42%. ¡Corre antes de que lleguen los federales interdimensionales!`;
-  } else {
-    respuesta = `Comando '${cmd}' no reconocido en esta línea temporal. Escribe 'help' si necesitas ayuda, genio frustrado.`;
-  }
-
-  terminalScreen.innerHTML += `<div style="color: var(--elec-turq); margin-bottom: 6px;">${respuesta}</div>`;
-  terminalScreen.scrollTop = terminalScreen.scrollHeight;
+if (btnRecalibrar && quantumLog) {
+  btnRecalibrar.addEventListener('click', () => {
+    const randomEntropy = (Math.random() * 30 + 20).toFixed(1);
+    if (barEntropy) barEntropy.style.width = `${randomEntropy}%`;
+    if (valEntropy) valEntropy.innerText = `${randomEntropy}%`;
+    
+    quantumLog.innerHTML += `<div style="color: var(--neon-cyan);">[RECALIBRACIÓN]: Flujo de materia oscura ajustado con éxito. Todo en orden.</div>`;
+    quantumLog.scrollTop = quantumLog.scrollHeight;
+  });
 }
 
-if (terminalSubmit && terminalInput) {
-  terminalSubmit.addEventListener('click', ejecutarComandoTerminal);
-  terminalInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') ejecutarComandoTerminal();
+if (btnPurga && quantumLog) {
+  btnPurga.addEventListener('click', () => {
+    // Pedir contraseña maestra para verificar identidad de The Creator
+    const passwordIngresada = prompt("🔐 [ALERTA DE SEGURIDAD]: El Protocolo de Purga requiere autorización de Nivel Dios.\nIngresa la contraseña maestra del Creador:");
+    const CLAVE_MAESTRA = "RICK2026"; // Contraseña blindada en el backend / sistema
+    
+    if (passwordIngresada !== CLAVE_MAESTRA) {
+      // RESPUESTA TRAMPA SARCÁSTICA PARA INTRUSOS / SEÑUELOS
+      const burlasIntruso = [
+        "🚨 [INTRUSO DETECTADO]: ¿En serio creíste que un señuelo o un intruso podía purgar el sistema? Tus datos acaban de ser enviados a la Federación Galáctica.",
+        "⚠️ [ACCESO DENEGADO]: Contraseña incorrecta. Has activado una descarga de estadísticas aburridas directamente a tu cerebro.",
+        "❌ [ERROR DE SEGURIDAD]: Intento de hackeo registrado. Rick te considera oficialmente un desperdicio de espacio en el multiverso."
+      ];
+      const burla = burlasIntruso[Math.floor(Math.random() * burlasIntruso.length)];
+      
+      quantumStatus.innerText = "INTRUSO BLOQUEADO";
+      quantumStatus.style.color = "var(--inter-red)";
+      quantumStatus.style.borderColor = "var(--inter-red)";
+
+      quantumLog.innerHTML += `<div style="color: var(--inter-red);">${burla}</div>`;
+      quantumLog.scrollTop = quantumLog.scrollHeight;
+
+      setTimeout(() => {
+        quantumStatus.innerText = "ESTABLE (99.4%)";
+        quantumStatus.style.color = "var(--rad-green)";
+        quantumStatus.style.borderColor = "var(--rad-green)";
+      }, 5000);
+      return;
+    }
+
+    // SI ES EL CREADOR REAL
+    quantumStatus.innerText = "PURGA AUTORIZADA";
+    quantumStatus.style.color = "var(--dim-purple)";
+    quantumStatus.style.borderColor = "var(--dim-purple)";
+
+    quantumLog.innerHTML += `<div style="color: #d78eff;">[AUTORIZADO]: Contraseña correcta. Purgando anomalías temporales bajo las órdenes de The Creator...</div>`;
+    quantumLog.scrollTop = quantumLog.scrollHeight;
+    
+    setTimeout(() => {
+      alert("⚡ [NÚCLEO PURGADO]: El sistema se ha limpiado exitosamente.");
+      location.reload();
+    }, 2000);
   });
 }
 
